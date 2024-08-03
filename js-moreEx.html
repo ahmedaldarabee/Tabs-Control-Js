@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js - examples</title>
+    
+    <style>
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .list-item {
+            list-style: none;
+            padding: 10px;
+            display: flex;
+            cursor: pointer;
+        }
+        
+        .list-item li {
+            padding: 10px;
+            background-color: #eee;
+            border-right:  2px solid white;
+        }
+
+        .content {
+            width: 300px;
+            padding: 10px;
+            margin-left: 10px;
+            margin-top: -10px;
+        }
+
+        .list-item li:hover,
+        .list-item li.active,
+        .content{
+            background-color: #c2c1c1;
+        }
+
+        .content > div {
+            width: 100%;
+        }
+
+        .content > div:not(:first-child){
+            display: none;
+        }
+    
+    </style>
+</head>
+<body>
+
+    <div>
+        <ul class="list-item">
+            <li data-content=".one" class="active" >tab 1</li>
+            <li data-content=".two" >tab 2</li>
+            <li data-content=".three" >tab 3</li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="one"  >content 1</div>
+        <div class="two"  >content 2</div>
+        <div class="three">content 3</div>
+    </div>
+
+</body>
+
+    <script>
+
+        let tabs = document.querySelectorAll(".list-item li");
+        let arrOFTabs = Array.from(tabs);
+
+        let contents = document.querySelectorAll(".content > div");
+        let arrOFContents = Array.from(contents);
+        
+        //-The main target to converted into array , to 
+        //-provide ease way to access all of these ele...
+
+        arrOFTabs.forEach(allElement => {
+            // allElement : represented each element as a single element in the array !
+            allElement.addEventListener("click",function(processOFElement){
+               
+                // this section just for more styling
+                arrOFTabs.forEach((allElements) => {
+                    allElements.classList.remove("active");
+                })
+                // also this section for more style
+                processOFElement.currentTarget.classList.add("active");
+
+
+                // The Important Part's
+
+                // 1- this section to show element in consistent why
+                //2-Reason: To hide all content sections initially or when switching tabs.
+                arrOFContents.forEach((divs) => {
+                    divs.style.display = "none";
+                })
+
+                // 1- we needed to attach ( linked-process ) between deleted content
+                // with current tab based on classes
+
+                document.querySelector(processOFElement.currentTarget.dataset.content).style.display="block";
+            
+                //  Reason: To display the content related to the active tab.
+            })
+        });
+
+    </script>
+</html>
